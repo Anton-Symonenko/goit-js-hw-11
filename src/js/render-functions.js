@@ -46,7 +46,7 @@ export function createGallery(images) {
       `
         )
         .join('');
-    galleryEl.innerHTML('beforeend', markup);
+    galleryEl.innerHTML = markup;
     lightbox.refresh();
 
     
