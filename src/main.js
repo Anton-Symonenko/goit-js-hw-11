@@ -1,34 +1,44 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
+import { getImagesByQuery } from './js/pixabay-api';
+import { createGallery, clearGallery } from './js/render-functions';
 
 
 
+const searchForm = document.querySelector('.form');
 
+searchForm.addEventListener('submit', async event => {
+  event.preventDefault();
 
+  const imageQuery = event.target.elements["search-text"].value.trim();
 
+  if (!imageQuery) return;
 
+  clearGallery();
 
+  try {
+    const data = await getImagesByQuery(imageQuery);
 
-iziToast.error({
-  title: 'Error',
-  message: 'Sorry, there are no images matching your search query. Please try again!',
+   if (data.hits.length === 0) {
+      iziToast.error({
+        title: 'Error',
+        message: 'Sorry, there are no images matching your search query. Please try again!',
+      });
+     return;
+     
+   }
+    createGallery(data.hits);
+  }catch (error) {
+    console.error(error);
+    iziToast.error({
+      title: 'Error',
+      message: 'An error occurred while fetching images. Please try again later.',
+    });
+  }
+
 });
 
 
 
-// Проєкт: GoIT JS HW-11 (Pixabay API)
 
-// Готово:
-// - Налаштований axios
-// - Створена функція getImagesByQuery(query)
-// - Підключений iziToast
-// - Зроблена форма пошуку
-// - Написані стилі для форми
-
-// Наступний крок:
-// 1. Створити render-functions.js
-// 2. Отримувати data.hits після submit
-// 3. Рендерити галерею карток
-// 4. Показувати iziToast.error якщо hits.length === 0
-// 5. Додати SimpleLightbox
