@@ -2,6 +2,15 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const galleryEl = document.querySelector('.gallery');
+const loaderEl = document.querySelector('.loader');
+
+export function showLoader() {
+  loaderEl.classList.remove('hidden');
+}
+
+export function hideLoader() {
+  loaderEl.classList.add('hidden');
+}
 
 const lightbox = new SimpleLightbox( '.gallery a', {
   captionsData: 'alt',
@@ -37,7 +46,7 @@ export function createGallery(images) {
       `
         )
         .join('');
-    galleryEl.insertAdjacentHTML('beforeend', markup);
+    galleryEl.innerHTML('beforeend', markup);
     lightbox.refresh();
 
     
